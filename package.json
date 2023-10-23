@@ -1,0 +1,29 @@
+{
+  "name": "koopjs-foss4g-2023",
+  "version": "0.1.0",
+  "description": "FOSS4G 2023 session about Koop.js",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "mocha 'test/**/*.test.js'",
+    "start": "node src/index.js",
+    "build": "copyfiles -f -E node_modules/reveal.js/dist/* lib/reveal"
+  },
+  "dependencies": {
+    "@koopjs/koop-core": "^9.1.1",
+    "@koopjs/provider-github": "^3.0.0",
+    "config": "^3.3.9",
+    "reveal.js": "^4.6.1"
+  },
+  "devDependencies": {
+    "@koopjs/cli": "^1.1.7",
+    "chai": "^4.3.7",
+    "copyfiles": "^2.4.1",
+    "mocha": "^10.2.0"
+  },
+  "repository": "",
+  "private": false,
+  "keywords": [
+    "koop",
+    "app"
+  ]
+}
