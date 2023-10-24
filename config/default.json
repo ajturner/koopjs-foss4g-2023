@@ -1,3 +1,6 @@
 {
-  "port": 8080
+  "port": 443,
+  "koopProviderYelp": {
+    "api_key": "Pd2YM_sCxgEXfBb3ICeVPPdthdGdX2pNafQY43oZGhKscoyxf_Hy_ysiepbzzMe0221Mg7vKd2W645UzeRG1SpLjcSRfxENDsZnbziK88x3Zh90CNVLhwdvPufw2ZXYx"
+  }
 }

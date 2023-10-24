@@ -3,6 +3,8 @@ const Koop = require('@koopjs/koop-core')
 const routes = require('./routes')
 const plugins = require('./plugins')
 const express = require('express');
+const fs = require("fs");
+var https = require('https')
 
 
 // initiate a koop app
@@ -20,6 +22,11 @@ routes.forEach((route) => {
   })
 })
 
-// start the server
-koop.server.listen(config.port, () => koop.log.info(`Koop server listening at ${config.port}`))
-koop.server.use('/reveal.js', express.static(__dirname + '/reveal.js'));
+var certOptions = {
+  key: fs.readFileSync('server.key'),
+  cert: fs.readFileSync('server.crt')
+}
+
+https.createServer( certOptions, koop.server).listen(config.port, () => koop.log.info(`Koop server listening at ${config.port}`))
+// koop.server.listen(config.port, () => koop.log.info(`Koop server listening at ${config.port}`))
+koop.server.use('/assets', express.static(`${__dirname}/../presentation/assets`));

@@ -8,6 +8,18 @@
       "name": "@koopjs/provider-github",
       "srcPath": "provider-github",
       "local": false
+    },
+    {
+      "type": "provider",
+      "name": "@koopjs/provider-yelp",
+      "srcPath": "provider-yelp",
+      "local": false
+    },
+    {
+      "type": "output",
+      "name": "@koopjs/output-ogcapi-features",
+      "srcPath": "output-ogcapi-features",
+      "local": false
     }
   ]
 }

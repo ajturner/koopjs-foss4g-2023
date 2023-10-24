@@ -6,11 +6,13 @@
   "scripts": {
     "test": "mocha 'test/**/*.test.js'",
     "start": "node src/index.js",
-    "build": "copyfiles -f -E node_modules/reveal.js/dist/* lib/reveal"
+    "build": "copyfiles -u 3 -E node_modules/reveal.js/dist/**/* node_modules/reveal.js/dist/* node_modules/reveal.js/plugin/**/* presentation/assets/lib/reveal"
   },
   "dependencies": {
     "@koopjs/koop-core": "^9.1.1",
+    "@koopjs/output-ogcapi-features": "^0.2.2",
     "@koopjs/provider-github": "^3.0.0",
+    "@koopjs/provider-yelp": "^1.0.0",
     "config": "^3.3.9",
     "reveal.js": "^4.6.1"
   },

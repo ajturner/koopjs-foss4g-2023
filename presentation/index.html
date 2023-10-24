@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>FOSS4G 2023</title>
+
+
+	<script src="assets/lib/reveal/reveal.js"></script>
+	<link rel="stylesheet" href="assets/lib/reveal/reveal.css">
+	<link rel="stylesheet" href="assets/lib/reveal/theme/black.css">
+	<link rel="stylesheet" href="assets/lib/reveal/highlight/monokai.css">
+	<script src="assets/lib/reveal/highlight/highlight.js"></script>
+	<style>
+		.notes {
+			display: none;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<section>
+				<section>
+					<h2 class="r-fit-text">Koop.js</h2>
+					<h2 class="r-fit-text">Open-Source, Geospatial API adapters</h2>
+					<a href="https://koopjs.github.io/" target="_blank">koopjs.github.io</a>
+					<br /><span>Andrew Turner - October 2023</span>
+				</section>
+				<section>
+					<h2>Who is Andrew?</h2>
+					<ul>
+						<li>Esri since 2012, prior GeoIQ / GeoCommons</li>
+						<li>CTO, <a href="https://hub.arcgis.com">ArcGIS Hub</a> / <a
+								href="https://esri.github.io">Open-source strategy</a> / Director, <a
+								href="https://dc.esri.com">R+D DC</a></li>
+						<li>Worked on various standards (GeoRSS, GeoJSON, KML, OpenSearch-Geo)</li>
+						<li><a href="https://www.osgeo.org/member/andrew-turner/">Charter Member</a> of OSGeo Foundation
+							since 2008</li>
+						<li>
+							<a href="https://highearthorbit.com" target="_blank">highearthorbit.com</a>
+							/ <a href="https://github.com/ajturner" target="_blank">github.com/ajturner</a>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h2>What is Koop.js?</h2>
+					<img data-src="assets/koop-logo.png" alt="Koop.js logo" />
+				</section>
+				<section>
+					<blockquote>
+						How can I get up-to-date data I need into the formats I want?
+					</blockquote>
+				</section>
+				<section>
+					<img data-src="assets/koop-illustration.png" alt="Diagram of Koop.js architecture">
+					<em>Babelfish for Geospatial API</em>
+				</section>
+				<section>
+					<h3>API Adapters</h3>
+					<img data-src="assets/koop-logical.png" alt="Diagram of Koop.js architecture">
+				</section>
+			</section>
+
+			<section>
+				<section>
+					<h1>How Koop works</h1>
+				</section>
+				<section>
+					<h2>Architecture</h2>
+					<img data-src="assets/koop-conceptual.png" alt="Diagram of Koop.js architecture">
+					<em>Modular, extensible, plugin-based architecture</em>
+					
+				</section>
+				<section>
+					<h3>Terminology</h3>
+					<ul>
+						<li><strong>Provider</strong>: connect to external API, Datastores</li>
+						<li><strong>Output</strong>: URI routes, query, response formats</li>
+						<li><strong>Core</strong>: Manages requests, translates Queries + Serialization to GeoJSON</li>
+						<li><strong>Cache</strong>: Optionally store interim results (DB, Redis, Files)</li>
+						<li><strong>Winnow</strong>: Apply SQL to GeoJSON in memory</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Expand your server</h3>
+					<img data-src="assets/koop-example.png" alt="Diagram of Koop.js architecture">
+				</section>
+
+			</section>
+			<section>
+				<section>
+					<h1>How to Use Koop</h1>
+				</section>
+				<section>
+					<li>CLI</li>
+					<li>Embed into App</li>
+				</section>
+				<section>
+					<pre><code  data-trim data-noescape>
+$ npm install -g @koopjs/cli
+$ koop new app demo-app && cd demo-app && npm i
+$ koop add provider @koopjs/provider-github 
+✓ added provider-github
+✓ registered provider-github
+✓ done
+$ koop serve
+						</code></pre>
+				</section>
+	
+				<section>
+					<h2>Output: OGC Features</h2>
+					<pre><code  data-trim data-noescape>
+$ koop add output @koopjs/output-ogcapi-features
+✓ added output-ogcapi-features
+✓ registered output-ogcapi-features
+✓ done
+$ npm run start 
+						</code></pre>
+<em>/github/user::repo::path::to::file/collections</em>
+				</section>
+				<section>
+					<img data-src="assets/github-leaflet.png" alt="GitHub GeoJSON in Leaflet">
+					<em>Fetch from GitHub</em>
+					<a href="https://localui.arcgis.com/github/baltimoreheritage::geojson::baltimore-city-wards-1797/collections" target="_blank">/github/baltimoreheritage::geojson::baltimore-city-wards-1797/collections</a>
+				</section>
+				<section>
+					<img data-src="assets/github-arcgis.png" alt="GitHub GeoJSON in ArcGIS Online">
+					<em>Works everywhere</em>
+				</section>
+				<section>
+					<h2>Custom API example: Yelp!</h2>
+					<pre><code  data-trim data-noescape>
+$ koop add output @koopjs/provider-yelp
+✓ added provider-yelp
+✓ registered provider-yelp
+✓ done
+$ npm run start 
+						</code></pre>
+<em>/koop-provider-yelp/0/collections</em>
+				</section>							
+				<section>
+					<img data-src="assets/yelp-leaflet.png" alt="Diagram of Koop.js architecture">
+					<em>Fetch from Yelp</em>
+				</section>
+				<section>
+					<h3>Available via URI Paths</h3>
+					<pre><code  data-trim data-noescape>registered cache: Cache v5.0.0
+registered output: GeoServices v7.1.9
+registered output: OGCAPIFeatures v0.2.2
+"GeoServices" routes for the "github" provider:
+ROUTE | [GET, POST] | /github/rest/info
+ROUTE | [GET, POST] | /github/tokens/:method
+ROUTE | [GET, POST] | /github/tokens
+ROUTE | [GET, POST] | /github/rest/services/:id/FeatureServer/:layer/:method
+ROUTE | [GET, POST] | /github/rest/services/:id/FeatureServer/layers
+ROUTE | [GET, POST] | /github/rest/services/:id/FeatureServer/:layer
+ROUTE | [GET, POST] | /github/rest/services/:id/FeatureServer
+ROUTE | [GET, POST] | /github/rest/services/:id/FeatureServer*
+ROUTE | [GET, POST] | /github/rest/services/:id/MapServer*
+"OGCAPIFeatures" routes for the "github" provider:
+ROUTE | [GET] | /github/conformance
+ROUTE | [GET] | /github/:id/collections
+ROUTE | [GET] | /github/:id/collections/:collectionId
+ROUTE | [GET] | /github/:id/collections/:collectionId/items
+ROUTE | [GET] | /github/:id/collections/:collectionId/items/:featureId
+registered provider: github v3.0.0
+"GeoServices" routes for the "koop-provider-yelp" provider:
+ROUTE | [GET, POST] | /koop-provider-yelp/rest/info
+ROUTE | [GET, POST] | /koop-provider-yelp/tokens/:method
+ROUTE | [GET, POST] | /koop-provider-yelp/tokens
+ROUTE | [GET, POST] | /koop-provider-yelp/rest/services/:id/FeatureServer/:layer/:method
+ROUTE | [GET, POST] | /koop-provider-yelp/rest/services/:id/FeatureServer/layers
+ROUTE | [GET, POST] | /koop-provider-yelp/rest/services/:id/FeatureServer/:layer
+ROUTE | [GET, POST] | /koop-provider-yelp/rest/services/:id/FeatureServer
+ROUTE | [GET, POST] | /koop-provider-yelp/rest/services/:id/FeatureServer*
+ROUTE | [GET, POST] | /koop-provider-yelp/rest/services/:id/MapServer*
+"OGCAPIFeatures" routes for the "koop-provider-yelp" provider:
+ROUTE | [GET] | /koop-provider-yelp/conformance
+ROUTE | [GET] | /koop-provider-yelp/:id/collections
+ROUTE | [GET] | /koop-provider-yelp/:id/collections/:collectionId
+ROUTE | [GET] | /koop-provider-yelp/:id/collections/:collectionId/items
+ROUTE | [GET] | /koop-provider-yelp/:id/collections/:collectionId/items/:featureId
+registered provider: koop-provider-yelp v1.0.0
+Koop server listening at 443	
+</code></pre>
+				</section>
+
+				<section>
+					<h3>Koop instance</h3>
+<pre><code  data-trim data-noescape>const Koop = require('@koopjs/koop-core')
+const koop = new Koop()
+const provider = require('@koopjs/provider-github')
+koop.register(provider, { /* provider options */ })
+const output = require('@koopjs/output-ogcapi-features')
+koop.register(output, { /* output options */ })
+koop.server.listen(80)
+</code></pre>
+				</section>
+				<section>
+					<h3>Deploying Koop</h3>
+					<ul>
+						<li>Docker</li>
+						<li>Heroku</li>
+						<li>AWS Lambda</li>
+					</ul>
+				</section>
+
+			</section>
+			<section>
+				<section>
+					<h1>How to extend Koop</h1>
+				</section>
+				<section>
+					<li>Building new Providers</li>
+					<li>Building new Outputs</li>
+					<li>Building new Plugins</li>
+					<li>Helping with Core engine</li>
+				</section>
+				<section>
+					<h3>Provider psuedo-code</h3>
+					<pre><code  data-trim data-noescape>// returns GeoJSON feature collection + metadata
+githubModel.prototype.getData(request, callback) { ... }
+const github = {
+	type: 'provider',
+	name: 'github',
+	Model: githubModel,
+	version: '1.0'
+  }</code></pre>
+				</section>
+				<section>
+					<h3>Output psuedo-code</h3>
+					<pre><code  data-trim data-noescape>function getCollectionItems(request, response) {
+	// pass request through to Provider
+	this.model.pull(request, (error, geojson) => { 
+		// convert GeoJSON to output format
+		const output = ...;
+		response.status(200).json( output );
+	})
+}
+
+const routes = [{
+	path: "$namespace/$providerParams/collections/:collectionId/items",
+	methods: ["get"],
+	handler: "getCollectionItems"
+}];
+
+const ogcapi = { 
+	"type": "output",
+	"name": "ogcapi-features",
+	"routes": routes,
+	"version": 1,
+	"koopCompatibility": ">=3"
+}</code></pre>
+				</section>
+				<section>
+					<h3>Cache plugin</h3>
+<pre><code  data-trim data-noescape>class Cache {
+	static pluginName = 'Memory Cache';
+	static type = 'cache';
+	static version = require('../package.json').version;
+
+	insert(key, geojson, options, callback) { ... }
+	retrieve(key, options, callback) { ... }
+	delete(key, callback) { ... }
+}</code></pre>
+				</section>
+				<section>
+					<h3>Winnow</h3>
+					Apply SQL to GeoJSON in memory
+					<pre><code  data-trim data-noescape>
+const statement = 'Select Trunk_Diameter from ? where Trunk_Diameter > 100'
+winnow
+	.prepareSql(statement)
+	.filter(geojson)
+					</code></pre>
+				</section>
+				<section>
+					<pre><code  data-trim data-noescape>
+winnow.query(features, {
+	geometry: {
+		xmin: 50,
+		ymin: 50,
+		xmax: 80,
+		ymax: 80,
+		spatialReference: {
+		wkid: '4326'
+		}
+	},
+	spatialPredicate: 'ST_Within'
+	});						
+					</code></pre>
+				</section>
+
+				<section>
+					<img data-src="assets/koop-sequence.png" alt="Diagram of Koop.js architecture">
+				</section>
+
+			</section>
+			<section>
+				<h2>Thank you!</h2>
+				<ul>
+					<li>https://koopjs.github.io</li>
+					<li>https://github.com/ajturner/koopjs-foss4g-2023</li>
+					<li><a href="https://mediaspace.esri.com/media/t/1_li21moqk" target="_blank">More videos</a></li>
+				</ul>
+				<h3>Questions?</h3>
+			</section>
+		</div>
+	</div>
+	<script>
+		// More info about initialization & config:
+		// - https://revealjs.com/initialization/
+		// - https://revealjs.com/config/
+		Reveal.initialize({
+			hash: true,
+			slideNumber: true,
+			plugins: [RevealHighlight]
+			// Learn about plugins: https://revealjs.com/plugins/
+			// plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+		});
+	</script>
+</body>
+
+</html>
